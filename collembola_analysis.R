@@ -100,7 +100,7 @@ boxplot(trmt.w.year$Entomobryidae ~ trmt.w.year$Treatment)
 boxplot(trmt.w.year$Hypogastruridae ~ trmt.w.year$Treatment)
 
 #
-abund.w.year <- glmer(abund ~ Treatment + (Tree_No|Block), 
+abund.w.year <- glmer(abund ~ Treatment + (1|Block) + (1|Tree_No), 
                       family = poisson, data = trmt.w.year)
 summary(abund.w.year)
 Anova(abund.w.year, type = "III")
@@ -112,7 +112,7 @@ testCategorical(abund.w.year, catPred = trmt.w.year$Treatment)
 testZeroInflation(abund.w.year)
 
 #
-rich.w.year <- glmer(rich ~ Treatment + (Tree_No|Block), 
+rich.w.year <- glmer(rich ~ Treatment + (1|Block) + (1|Tree_No), 
                       family = poisson, data = trmt.w.year)
 summary(rich.w.year)
 Anova(rich.w.year, type = "III")
