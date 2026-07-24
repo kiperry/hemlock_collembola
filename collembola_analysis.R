@@ -100,7 +100,7 @@ boxplot(trmt.w.year$Entomobryidae ~ trmt.w.year$Treatment)
 boxplot(trmt.w.year$Hypogastruridae ~ trmt.w.year$Treatment)
 
 #
-abund.w.year <- glmer(abund ~ Treatment + (1|Block) + (1|Tree_No), 
+abund.w.year <- glmer.nb(abund ~ Treatment + (1|Block) + (1|Tree_No), 
                       family = poisson, data = trmt.w.year)
 summary(abund.w.year)
 Anova(abund.w.year, type = "III")
@@ -108,6 +108,7 @@ emmeans(abund.w.year, pairwise ~ Treatment)
 testDispersion(abund.w.year)
 res.mod.1 <- simulateResiduals(abund.w.year)
 plot(abund.w.year)
+plotQQunif(abund.w.year)
 testCategorical(abund.w.year, catPred = trmt.w.year$Treatment)
 testZeroInflation(abund.w.year)
 
@@ -120,6 +121,7 @@ emmeans(rich.w.year, pairwise ~ Treatment)
 testDispersion(rich.w.year)
 res.mod.1 <- simulateResiduals(rich.w.year)
 plot(rich.w.year)
+plotQQunif(rich.w.year)
 testCategorical(rich.w.year, catPred = trmt.w.year$Treatment)
 testZeroInflation(rich.w.year)
 
@@ -172,16 +174,17 @@ boxplot(trmt.a.year$Entomobryidae ~ trmt.a.year$Treatment)
 boxplot(trmt.a.year$Hypogastruridae ~ trmt.a.year$Treatment)
 
 #
-abund.a.year <- glmer.nb(abund ~ Treatment + (1|Block), 
+abund.a.year.nb <- glmer.nb(abund ~ Treatment + (1|Block), 
                       family = poisson, data = trmt.a.year)
-summary(abund.a.year)
-Anova(abund.a.year, type = "III")
-emmeans(abund.a.year, pairwise ~ Treatment)
-testDispersion(abund.a.year)
-res.mod.1 <- simulateResiduals(abund.a.year)
-plot(abund.a.year)
-testCategorical(abund.a.year, catPred = trmt.a.year$Treatment)
-testZeroInflation(abund.a.year)
+summary(abund.a.year.nb)
+Anova(abund.a.year.nb, type = "III")
+emmeans(abund.a.year.nb, pairwise ~ Treatment)
+testDispersion(abund.a.year.nb)
+res.mod.1 <- simulateResiduals(abund.a.year.nb)
+plot(abund.a.year.nb)
+plotQQunif(abund.a.year.nb)
+testCategorical(abund.a.year.nb, catPred = trmt.a.year$Treatment)
+testZeroInflation(abund.a.year.nb)
 
 #
 rich.a.year <- glmer(rich ~ Treatment + (1|Block), 
@@ -192,6 +195,7 @@ emmeans(rich.a.year, pairwise ~ Treatment)
 testDispersion(rich.a.year)
 res.mod.1 <- simulateResiduals(rich.a.year)
 plot(rich.a.year)
+plotQQunif(rich.a.year)
 testCategorical(rich.a.year, catPred = trmt.a.year$Treatment)
 testZeroInflation(rich.a.year)
 
@@ -238,6 +242,7 @@ emmeans(abund.mapl, pairwise ~ Treatment)
 testDispersion(abund.mapl)
 res.mod.1 <- simulateResiduals(abund.mapl)
 plot(abund.mapl)
+plotQQunif(abund.mapl)
 testCategorical(abund.mapl, catPred = mapl$Treatment)
 testZeroInflation(abund.mapl)
 
@@ -249,8 +254,55 @@ emmeans(rich.mapl, pairwise ~ Treatment)
 testDispersion(rich.mapl)
 res.mod.1 <- simulateResiduals(rich.mapl)
 plot(rich.mapl)
+plotQQunif(rich.mapl)
 testCategorical(rich.mapl, catPred = mapl$Treatment)
 testZeroInflation(rich.mapl)
+
+# can separate models run for each family?
+# Onychiuridae
+abund.ony <- glmer(Onychiuridea ~ Treatment + (1|Block), 
+                    family = poisson, data = mapl)
+summary(abund.ony)
+Anova(abund.ony, type = "III")
+emmeans(abund.ony, pairwise ~ Treatment)
+testDispersion(abund.ony)
+res.mod.1 <- simulateResiduals(abund.ony)
+plot(abund.ony)
+plotQQunif(abund.ony)
+testCategorical(abund.ony, catPred = mapl$Treatment)
+testZeroInflation(abund.ony)
+
+# Isotomidea
+abund.iso <- glmer(Isotomidea ~ Treatment + (1|Block), 
+                   family = poisson, data = mapl)
+summary(abund.iso)
+Anova(abund.iso, type = "III")
+emmeans(abund.iso, pairwise ~ Treatment)
+testDispersion(abund.iso)
+res.mod.1 <- simulateResiduals(abund.iso)
+plot(abund.iso)
+plotQQunif(abund.iso)
+testCategorical(abund.iso, catPred = mapl$Treatment)
+testZeroInflation(abund.iso)
+
+# Entomobryidae
+# No individuals collected near hemlock
+# so cannot be tested statistically
+abund.ent <- glmer(Entomobryidae ~ Treatment + (1|Block), 
+                   family = poisson, data = mapl)
+
+# Hypogastruridae
+abund.hyp <- glmer(Hypogastruridae ~ Treatment + (1|Block), 
+                   family = poisson, data = mapl)
+summary(abund.hyp)
+Anova(abund.hyp, type = "III")
+emmeans(abund.hyp, pairwise ~ Treatment)
+testDispersion(abund.hyp)
+res.mod.1 <- simulateResiduals(abund.hyp)
+plot(abund.hyp)
+plotQQunif(abund.hyp)
+testCategorical(abund.hyp, catPred = mapl$Treatment)
+testZeroInflation(abund.hyp)
 
 # change the names of the variables and reorder them for figure
 levels(mapl$Treatment)
@@ -261,24 +313,24 @@ mapl$Treatment <- factor(mapl$Treatment,
                                 levels = c("Hemlock", "Sugar Maple"))
 
 
-png("Figures/Collembola_hemlock_maple.png", width = 2300, height = 1000, pointsize = 30)
+png("Figures/Collembola_hemlock_maple v2.png", width = 2300, height = 1000, pointsize = 30)
 
 par(mfrow=c(1,2))
 par(mar=c(5,7,4,2))
 
 boxplot(abund ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
-        ylim = c(0,40), ylab = "Abundance", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+        ylim = c(0,40), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
 stripchart(abund ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,36.5, "A", pos = 3, font = 1, cex = 1.5)
+text(0.5,36.5, "A", pos = 3, font = 1, cex = 1.8)
 text(1,9, "a", pos = 3, font = 1, cex = 1.2)
 text(2,17, "b", pos = 3, font = 1, cex = 1.2)
 
 boxplot(rich ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
-        ylim = c(0,6), ylab = "Family Richness", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+        ylim = c(0,6), ylab = "Family Richness (Families/Soil Core)", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
 stripchart(rich ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,5.5, "B", pos = 3, font = 1, cex = 1.5)
+text(0.5,5.5, "B", pos = 3, font = 1, cex = 1.8)
 text(1,2.2, "a", pos = 3, font = 1, cex = 1.2)
 text(2,4.2, "b", pos = 3, font = 1, cex = 1.2)
 
@@ -294,36 +346,76 @@ brewer.pal(9, "Purples")
 brewer.pal(9, "Greens")
 brewer.pal(9, "Blues")
 
-png("Figures/Collembola_treatment_panel.png", width = 2300, height = 2000, pointsize = 30)
+png("Figures/Collembola_treatment_panel v2.png", width = 2300, height = 2000, pointsize = 30)
 
 par(mfrow=c(2,2))
 par(mar=c(5,7,4,2))
 
 # abundance
 boxplot(abund ~ Treatment, data = trmt.w.year, col = c("#C6DBEF", "#6BAED6", "#2171B5"),
-        ylim = c(0,8), ylab = "Abundance", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+        ylim = c(0,8), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
 stripchart(abund ~ Treatment, data = trmt.w.year, pch = 19, cex = 2, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,7.4, "A", pos = 3, font = 1, cex = 1.5)
+text(0.5,7.4, "A", pos = 3, font = 1, cex = 1.8)
 
 boxplot(abund ~ Treatment, data = trmt.a.year, col = c("#E5F5E0", "#C7E9C0", "#A1D99B", "#238B45"),
-        ylim = c(0,8), ylab = "Abundance", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+        ylim = c(0,8), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
 stripchart(abund ~ Treatment, data = trmt.a.year, pch = 19, cex = 2, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,7.4, "C", pos = 3, font = 1, cex = 1.5)
+text(0.5,7.4, "C", pos = 3, font = 1, cex = 1.8)
 
 
 # richness
 boxplot(rich ~ Treatment, data = trmt.w.year, col = c("#C6DBEF", "#6BAED6", "#2171B5"),
-        ylim = c(0,6), ylab = "Family Richness", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+        ylim = c(0,6), ylab = "Family Richness (Families/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
 stripchart(rich ~ Treatment, data = trmt.w.year, pch = 19, cex = 2, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,5.5, "B", pos = 3, font = 1, cex = 1.5)
+text(0.5,5.5, "B", pos = 3, font = 1, cex = 1.8)
 
 boxplot(rich ~ Treatment, data = trmt.a.year, col = c("#E5F5E0", "#C7E9C0", "#A1D99B", "#238B45"),
-        ylim = c(0,6), ylab = "Family Richness", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+        ylim = c(0,6), ylab = "Family Richness (Families/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
 stripchart(rich ~ Treatment, data = trmt.a.year, pch = 19, cex = 2, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,5.5, "D", pos = 3, font = 1, cex = 1.5)
+text(0.5,5.5, "D", pos = 3, font = 1, cex = 1.8)
+
+dev.off()
+
+### Panel figure: Each family
+
+png("Figures/Collembola_families_hemlock_maple v2.png", width = 2300, height = 2000, pointsize = 30)
+
+par(mfrow=c(2,2))
+par(mar=c(4,5,1,1))
+#(bottom, left, top, right)
+
+boxplot(Onychiuridea ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
+        ylim = c(0,20), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+stripchart(Onychiuridea ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
+           vertical = TRUE, method = "jitter", jitter = 0.2)
+text(0.5,19, "A", pos = 3, font = 1, cex = 1.8)
+text(1,9, "a", pos = 3, font = 1, cex = 1.5)
+text(2,6, "b", pos = 3, font = 1, cex = 1.5)
+
+boxplot(Isotomidea ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
+        ylim = c(0,10), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
+stripchart(Isotomidea ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
+           vertical = TRUE, method = "jitter", jitter = 0.2)
+text(0.5,9.5, "B", pos = 3, font = 1, cex = 1.8)
+text(1,2.5, "a", pos = 3, font = 1, cex = 1.5)
+text(2,4.5, "b", pos = 3, font = 1, cex = 1.5)
+
+boxplot(Hypogastruridae ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
+        ylim = c(0,10), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+stripchart(Hypogastruridae ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
+           vertical = TRUE, method = "jitter", jitter = 0.2)
+text(0.5,9.5, "C", pos = 3, font = 1, cex = 1.8)
+text(1,2, "a", pos = 3, font = 1, cex = 1.5)
+text(2,7, "b", pos = 3, font = 1, cex = 1.5)
+
+boxplot(Entomobryidae ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
+        ylim = c(0,10), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
+stripchart(Entomobryidae ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
+           vertical = TRUE, method = "jitter", jitter = 0.2)
+text(0.5,9.5, "D", pos = 3, font = 1, cex = 1.8)
 
 dev.off()
