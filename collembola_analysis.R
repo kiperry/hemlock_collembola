@@ -397,25 +397,25 @@ text(1,9, "a", pos = 3, font = 1, cex = 1.5)
 text(2,6, "b", pos = 3, font = 1, cex = 1.5)
 
 boxplot(Isotomidea ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
-        ylim = c(0,10), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
+        ylim = c(0,8), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
 stripchart(Isotomidea ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,9.5, "B", pos = 3, font = 1, cex = 1.8)
+text(0.5,7.5, "B", pos = 3, font = 1, cex = 1.8)
 text(1,2.5, "a", pos = 3, font = 1, cex = 1.5)
 text(2,4.5, "b", pos = 3, font = 1, cex = 1.5)
 
 boxplot(Hypogastruridae ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
-        ylim = c(0,10), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
+        ylim = c(0,8), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
 stripchart(Hypogastruridae ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,9.5, "C", pos = 3, font = 1, cex = 1.8)
+text(0.5,7.5, "C", pos = 3, font = 1, cex = 1.8)
 text(1,2, "a", pos = 3, font = 1, cex = 1.5)
 text(2,7, "b", pos = 3, font = 1, cex = 1.5)
 
 boxplot(Entomobryidae ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
-        ylim = c(0,10), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
+        ylim = c(0,8), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
 stripchart(Entomobryidae ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,9.5, "D", pos = 3, font = 1, cex = 1.8)
+text(0.5,7.5, "D", pos = 3, font = 1, cex = 1.8)
 
 dev.off()
