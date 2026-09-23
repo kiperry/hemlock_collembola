@@ -382,7 +382,7 @@ dev.off()
 
 ### Panel figure: Each family
 
-png("Figures/Collembola_families_hemlock_maple v2.png", width = 2300, height = 2000, pointsize = 30)
+png("Figures/Collembola_families_hemlock_maple v3.png", width = 2300, height = 2000, pointsize = 30)
 
 par(mfrow=c(2,2))
 par(mar=c(4,5,1,1))
@@ -392,30 +392,34 @@ boxplot(Onychiuridea ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
         ylim = c(0,20), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
 stripchart(Onychiuridea ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,19, "A", pos = 3, font = 1, cex = 1.8)
+text(0.45,19.5, "A - Onychiuridae", pos = 4, font = 1, cex = 1.8)
 text(1,9, "a", pos = 3, font = 1, cex = 1.5)
 text(2,6, "b", pos = 3, font = 1, cex = 1.5)
+# title("Onychiuridae", cex.main = 2, line = 0.5, adj = 0)
 
 boxplot(Isotomidea ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
         ylim = c(0,8), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
 stripchart(Isotomidea ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,7.5, "B", pos = 3, font = 1, cex = 1.8)
+text(0.45,7.8, "B - Isotomidae", pos = 4, font = 1, cex = 1.8)
 text(1,2.5, "a", pos = 3, font = 1, cex = 1.5)
 text(2,4.5, "b", pos = 3, font = 1, cex = 1.5)
+# title("Isotomidae", cex.main = 2, line = 0.5, adj = 0)
 
 boxplot(Hypogastruridae ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
         ylim = c(0,8), ylab = "Abundance (Individuals/Soil Core)", xlab = "", cex.lab = 1.6, cex.axis = 1.5)
 stripchart(Hypogastruridae ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,7.5, "C", pos = 3, font = 1, cex = 1.8)
+text(0.45,7.8, "C - Hypogastruridae", pos = 4, font = 1, cex = 1.8)
 text(1,2, "a", pos = 3, font = 1, cex = 1.5)
 text(2,7, "b", pos = 3, font = 1, cex = 1.5)
+# title("Hypogastruridae", cex.main = 2, line = 0.5, adj = 0)
 
 boxplot(Entomobryidae ~ Treatment, data = mapl, col = c("#807DBA", "#DADAEB"),
         ylim = c(0,8), ylab = "", xlab = "", cex.lab = 1.4, cex.axis = 1.5)
 stripchart(Entomobryidae ~ Treatment, data = mapl, pch = 19, cex = 1.8, add = TRUE, 
            vertical = TRUE, method = "jitter", jitter = 0.2)
-text(0.5,7.5, "D", pos = 3, font = 1, cex = 1.8)
+text(0.45,7.8, "D - Entomobryidae", pos = 4, font = 1, cex = 1.8)
+# title("Entomobryidae", cex.main = 2, line = 0.5, adj = 0)
 
 dev.off()
