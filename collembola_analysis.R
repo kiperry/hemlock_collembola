@@ -31,6 +31,8 @@ boxplot(Tomoceridae ~ Treatment, data = dat)
 boxplot(Hypogastruridae ~ Treatment, data = dat)
 boxplot(Neanuridae ~ Treatment, data = dat)
 
+dat$total.abund <- rowSums(dat[,8:14,])
+
 # load packages
 library(tidyverse)
 library(lme4)
@@ -44,12 +46,25 @@ library(RColorBrewer)
 
 # separate data for analyses
 con <- dat[which(dat$Treatment == "Control"),]
+colSums(con[,8:15])
+
 maple <- dat[which(dat$Treatment == "Sugar_Maple"),]
+colSums(maple[,8:15])
+
 TR22 <- dat[which(dat$Treatment == "TR_2022"),]
+colSums(TR22[,8:15])
+
 TR23 <- dat[which(dat$Treatment == "TR_2023"),]
+colSums(TR23[,8:15])
+
 TRwk <- dat[which(dat$Treatment == "TR_2024_1wk"),]
+colSums(TRwk[,8:15])
+
 TRpr <- dat[which(dat$Treatment == "TR_2024_pre"),]
+colSums(TRpr[,8:15])
+
 TRmo <- dat[which(dat$Treatment == "TR_2024_1mo"),]
+colSums(TRmo[,8:15])
 
 # across year treatment comparison: control, 2022, 2023, 2024 (week or month)
 # within year treatment comparison: pre, week, month
@@ -423,3 +438,5 @@ text(0.45,7.8, "D - Entomobryidae", pos = 4, font = 1, cex = 1.8)
 # title("Entomobryidae", cex.main = 2, line = 0.5, adj = 0)
 
 dev.off()
+
+
